@@ -2,15 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-// Prod
-// module.exports = {
-//     purge: {
-//       content: ['./templates/**/*.html.twig']
-//     },
-//     darkMode: false, // or 'media' or 'class'
-//     theme: {},
-//     variants: {
-//       extend: {},
-//     },
-//     plugins: [],
-//   }
+@import "partials/form.scss";
+
+body {
+    background-color: rgb(248, 248, 248);
+}

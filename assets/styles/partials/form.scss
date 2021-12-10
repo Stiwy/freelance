@@ -1,0 +1,36 @@
+.form-group {
+    margin: 10px 0;
+    position: relative;
+    color: gray;
+
+    label {
+        top:5px;
+        left: 8px;
+        position: absolute;
+        font-size: 1.1rem;
+    }
+
+    input {
+        display: block;
+        border: grey solid 2px;
+        border-radius: 5px;
+        width: 100%;
+        margin: 25px auto;
+        font-size: 1.1rem;
+        line-height: 2.4rem;
+        padding-left: 10px;
+    }
+}
+
+.input-focus-label {
+    top: -13px !important;
+    background: white;
+    padding: 0px 5px;
+    color: rgba(16, 185, 129) !important;;
+    font-size: 1rem;
+} 
+
+.input-focus {
+    border-color: rgba(16, 185, 129) !important;
+    outline: none;
+} 

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Se connecter | Freelancer{% endblock %}
+
+{% block body %}
+
+<div class="h-screen grid grid-cols-1 place-items-center">
+    <div class="-mt-24 w-1/4">
+        <h1 class="text-4xl text-center font-black tracking-wide text-green-500 mb-5">Freelancer</h1>
+        
+        <form method="post" class="border border-gray-200 h-2/5 bg-white p-4 rounded-md">
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <h1 class="text-center text-gray-400 text-xl mb-8">Connectez-vous</h1>
+
+            {% if error %}
+                <div class="p-3 border-l-4 border-red-500 bg-red-100 text-red-700 -mt-8 mb-8">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="inputEmail" id="inputEmailLabel">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="" autocomplete="email" required onfocus="addClassForm('inputEmail')" onblur="toggleClassForm('inputEmail')">
+            </div>
+
+            <div class="form-group">
+                <label for="inputPassword" id="inputPasswordLabel">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="" autocomplete="current-password" required onfocus="addClassForm('inputPassword')" onblur="toggleClassForm('inputPassword')">
+            </div>
+
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
+
+            <div class="checkbox mb-3">
+                <label class="text-gray-500">
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
+           
+
+            <button class="bg-green-500 text-white w-full py-2 rounded-md hover:bg-green-400" type="submit">
+                Se connecter
+            </button>
+        </form>
+        <em class='text-gray-400 text-sm hover:text-green-500' title="Vous pouvez soucrire un abonement pour votre activité de freelance en cliquant ici."><a href="#">Soucrire un abonement et créer mon compte.</a></em>
+    </div>
+</div>
+
+<script>
+
+    toggleClassForm('inputEmail');
+    toggleClassForm('inputPassword');
+
+    function addClassForm(idInput)
+    {
+        let idLabel = idInput+'Label';
+        let input = document.getElementById(idInput);
+        let label = document.getElementById(idLabel);
+        
+        input.classList.add('input-focus');
+        label.classList.add('input-focus-label');
+    }
+
+    function toggleClassForm(idInput)
+    {
+        let idLabel = idInput+'Label';
+        let input = document.getElementById(idInput);
+        let label = document.getElementById(idLabel);
+        
+        if (input.value == "") {
+            input.classList.remove('input-focus');
+            label.classList.remove('input-focus-label');
+        } else {
+            input.classList.add('input-focus');
+            label.classList.add('input-focus-label');
+        }
+    }
+</script>
+{% endblock %}
