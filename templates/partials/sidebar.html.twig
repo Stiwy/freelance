@@ -1,0 +1,29 @@
+{% set uri = app.request.requestUri %}
+
+<div class="bg-gray-700 h-screen w-1/5 shadow-xl fixed">
+    <h1 class="text-3xl text-center font-black tracking-wide text-green-500 my-5">Freelancer</h1>
+
+    <nav class="w-3/4 mx-auto text-white mt-20">
+        <ul>
+            <li class="{% if(uri == '/accueil') %} active {% endif %} my-2 py-2 px-3 rounded hover:text-green-500 cursor-pointer">
+                <a class="text-lg"><i class="fas fa-user"></i> Tableau de bord</a>
+            </li>
+            <li class="{% if(uri == '/clients') %} active {% endif %} my-2 py-2 px-3 rounded hover:text-green-500 cursor-pointer">
+                <a class="text-lg"><i class="fas fa-user"></i> Mes clients</a>
+            </li>
+            <li class="{% if(uri == '/missions') %} active {% endif %} my-2 py-2 px-3 rounded hover:text-green-500 cursor-pointer">
+                <a class="text-lg"><i class="fas fa-file-signature"></i> Mes missions</a>
+            </li>
+            <li class="{% if(uri == '/collaborateurs') %} active {% endif %} my-2 py-2 px-3 rounded hover:text-green-500 cursor-pointer">
+                <a class="text-lg"><i class="fas fa-user-tie"></i></i> Mes collaborateurs</a>
+            </li>
+        <ul>
+    </nav>
+
+    <div class="absolute bottom-2 w-full">
+        <div class="text-gray-300 px-3">
+            <a href="" class="hover:text-green-500 cursor-pointer"><i class="fas fa-user-circle"></i> Mon compte</a>
+            <a href="{{ path('app_logout') }}" class="float-right hover:text-green-500 cursor-pointer"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+        </div>
+    </div>
+</div>

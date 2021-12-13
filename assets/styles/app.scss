@@ -3,6 +3,11 @@
 @import "tailwindcss/utilities";
 
 @import "partials/form.scss";
+@import "partials/nav.scss";
+
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 
 body {
     background-color: rgb(248, 248, 248);

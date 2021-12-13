@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block layout %}
+
+    <div class="flex">
+        {% include 'partials/sidebar.html.twig' %}
+
+        {% block body %}
+        {% endblock %}
+    </div>
+    
+
+{% endblock %}
