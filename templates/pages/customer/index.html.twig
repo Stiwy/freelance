@@ -1,0 +1,92 @@
+{% extends 'layouts/connected.html.twig' %}
+
+{% block title %}Mes clients{% endblock %}
+
+{% block body %}
+
+    <section class="w-4/5 min-h-screen">
+        <header class="bg-gray-800 text-white p-3 flex content-between">
+            <h2 class="text-xl tracking-wide text-gray-400 w-8/12">Mes clients</h2>
+
+            <form action="" class="w-4/12">
+                <input type="search" placeholder="Rechercher ici" class="bg-gray-600 placeholder-white rounded-md p-1 rounded-r-none h-8">
+                <button type="submit" class="border-2 border-gray-600 px-3 h-8 rounded-md -ml-1 rounded-l-none hover:bg-gray-600 "><i class="fas fa-search"></i></button>
+            </form>
+        </header>
+
+        <div class="flex content-between px-5 pt-20">
+            <h2 class="block w-4/5 font-black text-4xl text-gray-400">Vous avez {{ plurial(customers, 'client') }}</h2>
+            <a class="block w-1/5 bg-green-500 hover:bg-green-400 text-white p-1 rounded text-lg text-center" href="{{ path('app_customer_create') }}">Nouveau client</a>
+        </div>
+        <div class="mx-auto px-5 pt-20">
+            <div class="grid grid-cols-3 gap-3">
+                {% for customer in customers %}
+                    <section class="shadow-xl text-gray-500 border-2 border-gray-200 hover:shadow-2xl rounded p-2">
+                        <a href="{{ path('app_customer_show', {'id': customer.id}) }}">
+                            <div id="card-header" class="flex justify-between border-b-2 border-indigo-500">
+                                <h3 class="text-xl w-3/5">{{ customer.firstname }} {{ customer.lastname }}</h3>
+
+                                <div class="w-1/3 text-center">
+                                    <em class="text-xs block text-gray-400">Client depuis le</em>
+                                    <em class="text-sm block -mt-1">01-01-21</em>
+                                </div>
+                            </div>
+                            <div id="card-body">
+                                <div id="contact-details">
+                                    <h4>Coordonnées : </h4>
+                                    <div class="flex justify-between">
+                                        <div class="w-2/4">
+                                            <em class="text-xs block text-gray-400">Téléphone</em>
+                                            <em class="text-sm block -mt-1"><span class="text-gray-400">{{ customer.phone }}</em>
+                                            <em class="mt-2 text-xs block text-gray-400">e-Mail</em>
+                                            <em class="text-sm block -mt-1">{{ customer.email }}</em>
+                                        </div>
+                                        
+                                        <div class="w-2/4">
+                                            <em class="text-xs block text-gray-400">Adresse</em>
+                                            <em class="text-sm block -mt-1">{{ customer.address }} {{ customer.addressComplement }}</em>
+                                            <em class="text-sm block -mt-1">{{ customer.zipCode }}, {{ customer.city }}</em>
+                                            <em class="text-sm block -mt-1">{{ customer.country }}</em>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="project-details" class="mt-4">
+                                    Missions :
+
+                                    <div class="flex justify-between">
+                                        <div class="w-2/4">
+                                            <em class="text-xs block text-gray-400">En cours</em>
+                                            <em class="text-sm block -mt-1">e-commerce</em>
+                                            <em class="mt-2 text-xs block text-gray-400">Dernière facture</em>
+                                            <em class="text-sm block -mt-1 text-green-600">300 €</em>
+                                        </div>
+                                        
+                                        <div class="w-2/4">
+                                            <em class="text-xs block text-gray-400">Echéance : </em>
+                                            <em class="text-sm block -mt-1">23-01-22</em>
+                                            <em class="mt-2 text-xs block text-gray-400">Débuté le : </em>
+                                            <em class="text-sm block -mt-1">11-12-21</em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div id="card-footer" class="mt-4">
+                            <div>
+                                <a href=""><i class="fas fa-star"></i></a>
+                                <a href="mailto:j.does@gmail.com"><i class="fas fa-envelope"></i></a>
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                        </div>
+                    </section>
+                {% else %}
+                    <div></div>
+                    <div class="mt-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5 text-center m-auto">
+                        <h3 class="font-black text-4xl text-gray-300">Vous n'avez pas encore de client</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

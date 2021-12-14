@@ -1,0 +1,131 @@
+{% extends 'layouts/connected.html.twig' %}
+
+{% block title %}Mes clients{% endblock %}
+
+{% block body %}
+
+    <section class="w-4/5 min-h-screen">
+        <header class="bg-gray-800 text-white p-3 flex content-between">
+            <h2 class="text-xl tracking-wide text-gray-400 w-8/12">Mes clients > Fiche client</h2>
+        </header>
+
+        <div class="flex content-between px-5 pt-20">
+            <h2 class="block w-4/5 font-black text-4xl text-gray-400">{{ title }}</h2>
+            <a class="block w-1/5 bg-gray-700 hover:bg-gray-600 text-white p-1 rounded text-lg text-center" href="{{ path('app_customer') }}">Retour</a>
+        </div>
+
+        <div class="w-3/5 mx-auto px-5 my-20 bg-white p-2 shadow-lg border-2 borger-gray-200 rounded-md">
+            {{ form_start(form) }}
+            {% if(form_errors(form) != "") %}
+                <div class="p-3 border-l-4 border-red-500 bg-red-100 text-red-700 -mt-8 mb-8">
+                    {{ form_errors(form) }}
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                {{ form_label(form.company) }}
+                {{ form_widget(form.company) }}
+            </div>
+            <div class="grid grid-flow-col gap-2">
+                <div class="">
+                    <div class="form-group">
+                        {{ form_widget(form.gender) }}
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group">
+                        {{ form_label(form.lastname) }}
+                        {{ form_widget(form.lastname) }}
+                    </div>
+                </div>
+                <div class="">
+                    <div class="form-group">
+                        {{ form_label(form.firstname) }}
+                        {{ form_widget(form.firstname) }}
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-flow-col gap-2">
+                <div>
+                    <div class="form-group">
+                        {{ form_label(form.phone) }}
+                        {{ form_widget(form.phone) }}
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.address_complement) }}
+                {{ form_widget(form.address_complement) }}
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <div class="form-group">
+                        {{ form_label(form.zip_code) }}
+                        {{ form_widget(form.zip_code) }}
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        {{ form_label(form.city) }}
+                        {{ form_widget(form.city) }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.country) }}
+                {{ form_widget(form.country) }}
+            </div>
+            {{ form_end(form) }}
+            <em class="text-gray-400 text-sm">Les champs comportant un (*) doivent êtres remplis.</em>
+        </div>
+    </section>
+
+    <script>
+
+    toggleClassForm('customer_company');
+    toggleClassForm('customer_firstname');
+    toggleClassForm('customer_lastname');
+    toggleClassForm('customer_email');
+    toggleClassForm('customer_phone');
+    toggleClassForm('customer_address');
+    toggleClassForm('customer_address_complement');
+    toggleClassForm('customer_zip_code');
+    toggleClassForm('customer_city');
+    toggleClassForm('customer_country');
+
+    function addClassForm(idInput)
+    {
+        let idLabel = idInput+'Label';
+        let input = document.getElementById(idInput);
+        let label = document.getElementById(idLabel);
+        
+        input.classList.add('input-focus');
+        label.classList.add('input-focus-label');
+    }
+
+    function toggleClassForm(idInput)
+    {
+        let idLabel = idInput+'Label';
+        let input = document.getElementById(idInput);
+        let label = document.getElementById(idLabel);
+        
+        if (input.value == "") {
+            input.classList.remove('input-focus');
+            label.classList.remove('input-focus-label');
+        } else {
+            input.classList.add('input-focus');
+            label.classList.add('input-focus-label');
+        }
+    }
+</script>
+{% endblock %}

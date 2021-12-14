@@ -1,0 +1,91 @@
+{% extends 'layouts/connected.html.twig' %}
+
+{% block title %}Mes clients{% endblock %}
+
+{% block body %}
+
+    <section class="w-4/5 min-h-screen">
+        <header class="bg-gray-800 text-white p-3 flex content-between">
+            <h2 class="text-xl tracking-wide text-gray-400 w-8/12">Mes clients > Fiche client</h2>
+
+            <form action="" class="w-4/12">
+                <input type="search" placeholder="Rechercher ici" class="bg-gray-600 placeholder-white rounded-md p-1 rounded-r-none h-8">
+                <button type="submit" class="border-2 border-gray-600 px-3 h-8 rounded-md -ml-1 rounded-l-none hover:bg-gray-600 "><i class="fas fa-search"></i></button>
+            </form>
+        </header>
+
+        <div class="flex content-between px-5 pt-20">
+            <h2 class="block w-4/5 font-black text-4xl text-gray-400">Fiche client</h2>
+            <a class="block w-1/5 bg-gray-700 hover:bg-gray-600 text-white p-1 rounded text-lg text-center" href="{{ path('app_customer') }}">Retour</a>
+        </div>
+        <div class="mx-auto px-5 pt-20">
+            <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                <div class="flex justify-between">
+                    <h3 class="text-2xl font-semibold text-green-500">
+                        {{ customer.gender }}. {{ customer.firstname }} {{ customer.lastname }}
+                    </h3>
+                    <div>
+                        <a href="{{ path('app_customer_update', {'id': customer.id}) }}" class="text-yellow-500 hover:text-yellow-400"><i class="fas fa-pencil-alt"></i> Editer</a>
+                        <button onclick="customerDelete({{ customer.id }})" class="ml-4 border-2 border-red-500 text-red-500 px-3 py-2 hover:bg-red-500 hover:text-white rounded-md"><i class="fas fa-user-times"></i> Supprimer</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 mt-10">
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-500 ml-2">Contact</h4>
+                        <br>
+                        <em class="text-sm text-gray-500 italic">Téléphone</em>
+                        <p class="text-gray-600 font-semibold ml-2 mb-2"><a href="callto:{{customer.phone}}">0{{customer.phone}}</a></p>
+                        <em class="text-sm text-gray-500 italic">E-mail</em>
+                        <p class="text-gray-600 font-semibold ml-2 mb-2"><a href="mailto:{{customer.email}}">{{customer.email}}</a></p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-500 ml-2">Adresse</h4>
+                        <br>
+                        <em class="text-sm text-gray-500 italic">Adresse</em>
+                        <p class="text-gray-600 font-semibold ml-2 mb-2">{{customer.address}}, {{customer.addressComplement}}</p>
+                        <em class="text-sm text-gray-500 italic">Ville</em>
+                        <p class="text-gray-600 font-semibold ml-2 mb-2">{{customer.zipCode}}, {{customer.city}}</p>
+                        <em class="text-sm text-gray-500 italic">Pays</em>
+                        <p class="text-gray-600 font-semibold ml-2 mb-2">{{customer.country}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                <h3 class="text-2xl font-semibold text-green-500">Mission(s)</h3>
+
+                <div class="mt-10 text-center">
+                    <h4 class="text-2xl font-semibold text-gray-400 mb-4">Pas de mission saisie</h4>
+                    <a href="" class="text-green-500 border-2 border-green-500 rounded-md px-4 py-2 hover:bg-green-500 hover:text-white hover:shadow-md">Créer une mission</a>
+                </div>
+            </div>
+
+            <div class="mt-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                <h3 class="text-2xl font-semibold text-green-500">Facture(s)</h3>
+
+                <div class="mt-10 text-center">
+                    <h4 class="text-2xl font-semibold text-gray-400 mb-4">Pas de facture saisie</h4>
+                    <a href="" class="text-green-500 border-2 border-green-500 rounded-md px-4 py-2 hover:bg-green-500 hover:text-white hover:shadow-md">Créer une facture</a>
+                </div>
+            </div>
+
+            <div class="mt-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5 mb-10">
+                <h3 class="text-2xl font-semibold text-green-500">Coordonées bancaire</h3>
+
+                <div class="mt-10 text-center">
+                    <h4 class="text-2xl font-semibold text-gray-400 mb-4">Pas d'infortamtion bancaire saisie</h4>
+                    <a href="" class="text-green-500 border-2 border-green-500 rounded-md px-4 py-2 hover:bg-green-500 hover:text-white hover:shadow-md">Ajouter un RIB</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function customerDelete(id) {
+            if(confirm('Souhaitez-vous vraiment supprimer ce client ?')) {
+                document.location.href = '/clients/supprimer/' + id;
+            }
+        }
+    </script>
+{% endblock %}
