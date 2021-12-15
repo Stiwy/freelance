@@ -8,7 +8,7 @@
     <div class="-mt-24 w-1/4">
         <h1 class="text-4xl text-center font-black tracking-wide text-green-500 mb-5">Freelancer</h1>
         
-        <form method="post" class="border border-gray-200 h-2/5 bg-white p-4 rounded-md">
+        <form method="post" class="border border-gray-200 h-2/5 bg-white p-4 rounded-md shadow-lg">
             {% if app.user %}
                 <div class="mb-3">
                     You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>

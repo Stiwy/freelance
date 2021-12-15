@@ -1,0 +1,33 @@
+{% extends 'layouts/connected.html.twig' %}
+
+{% block title %}Mes clients{% endblock %}
+
+{% block body %}
+
+    <section class="w-4/5 min-h-screen">
+        <header class="bg-gray-800 text-white p-3 flex content-between">
+            <h2 class="text-xl tracking-wide text-gray-400 w-8/12">Mes missions</h2>
+
+            <form action="" class="w-4/12">
+                <input type="search" placeholder="Rechercher ici" class="bg-gray-600 placeholder-white rounded-md p-1 rounded-r-none h-8"/>
+                <button type="submit" class="border-2 border-gray-600 px-3 h-8 rounded-md -ml-1 rounded-l-none hover:bg-gray-600 "><i class="fas fa-search"></i></button>
+            </form>
+        </header>
+
+        <div class="flex content-between px-5 pt-20">
+            <h2 class="block w-4/5 font-black text-4xl text-gray-400">Mes missions</h2>
+            <a class="block w-1/5 bg-green-500 hover:bg-green-400 text-white p-1 rounded text-lg text-center" href="{{ path('app_mission_create') }}">Créer une mission</a>
+        </div>
+        <div class="mx-auto px-5 pt-20">
+            {% for mission in missions %}
+            <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                {{ dump(mission) }}
+            </div>
+            {% else %}
+                <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5 text-center">
+                    <h2 class="font-black text-2xl text-gray-400">Vous n'avez pas de mission</h2>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
