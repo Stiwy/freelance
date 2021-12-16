@@ -1,6 +1,6 @@
 {% extends 'layouts/connected.html.twig' %}
 
-{% block title %}Mes clients{% endblock %}
+{% block title %}Mes mission{% endblock %}
 
 {% block body %}
 
@@ -33,8 +33,11 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.status) }}
-                {{ form_widget(form.status) }}
+                {{ form_widget(form.mission_status) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(form.customer) }}
             </div>
             {{ form_end(form) }}
             <em class="text-gray-400 text-sm">Les champs comportant un (*) doivent êtres remplis.</em>

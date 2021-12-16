@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,6 +73,11 @@ class Customer
      * @ORM\Column(type="string", length=255)
      */
     private $city;
+
+    public function __toString(): string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname() . ' @' . $this->getId();
+    }
 
     public function getId(): ?int
     {

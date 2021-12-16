@@ -28,14 +28,15 @@ class Mission
     private $details;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $insert_date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=MissionStatus::class, inversedBy="mission")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $missionStatus;
 
     public function getId(): ?int
     {
@@ -66,18 +67,6 @@ class Mission
         return $this;
     }
 
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function getInsertDate(): ?\DateTimeInterface
     {
         return $this->insert_date;
@@ -86,6 +75,18 @@ class Mission
     public function setInsertDate(\DateTimeInterface $insert_date): self
     {
         $this->insert_date = $insert_date;
+
+        return $this;
+    }
+
+    public function getMissionStatus(): ?MissionStatus
+    {
+        return $this->missionStatus;
+    }
+
+    public function setMissionStatus(?MissionStatus $missionStatus): self
+    {
+        $this->missionStatus = $missionStatus;
 
         return $this;
     }
