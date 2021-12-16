@@ -37,6 +37,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Owner::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $owner;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Customer::class, inversedBy="user", cascade={"persist", "remove"})
+     */
+    private $customer;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $first_connexion;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,5 +120,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getOwner(): ?Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Owner $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getFirstConnexion(): ?bool
+    {
+        return $this->first_connexion;
+    }
+
+    public function setFirstConnexion(bool $first_connexion): self
+    {
+        $this->first_connexion = $first_connexion;
+
+        return $this;
     }
 }

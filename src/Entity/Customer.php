@@ -74,6 +74,17 @@ class Customer
      */
     private $city;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="customer", cascade={"persist", "remove"})
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="customers")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
     public function __toString(): string
     {
         return $this->getFirstname() . ' ' . $this->getLastname() . ' @' . $this->getId();
@@ -212,6 +223,40 @@ class Customer
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setCustomer(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getCustomer() !== $this) {
+            $user->setCustomer($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Owner $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

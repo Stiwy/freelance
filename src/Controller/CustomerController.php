@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Entity\User;
 use App\Form\CustomerType;
 use App\Repository\CustomerRepository;
+use App\Repository\OwnerRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CustomerController extends AbstractController
@@ -22,7 +26,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/clients/nouveau', name: 'app_customer_create')]
-    public function create(Request $request, EntityManagerInterface $manager): Response
+    public function create(Request $request, EntityManagerInterface $manager, OwnerRepository $ownerRepository, UserRepository $userRepository, UserPasswordHasherInterface $hasher): Response
     {
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
@@ -30,9 +34,27 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $owner = $ownerRepository->findOneBy(['email' => $this->getUser()->getEmail()]);
             $customer = $form->getData();
+            $customer->setOwner($owner);
+
+            $emailExist = $userRepository->count(["email" => $customer->getEmail()]);
+
+            if ($emailExist) {
+                return $this->redirectToRoute('app_customer_create');
+            }
+
+            $user = new User();
+            $user->setEmail($customer->getEmail());
+
+            $password = $hasher->hashPassword($user,$customer->getEmail() . '&' . $owner->getId());
+            $user->setPassword($password);
+            $user->setRoles(["ROLE_CUSTOMER"]);
+            $user->setCustomer($customer);
+            $user->setFirstConnexion(true);
 
             $manager->persist($customer);
+            $manager->persist($user);
             $manager->flush();
 
             return $this->redirectToRoute('app_customer_show', ['id' => $customer->getId()]);

@@ -2,6 +2,10 @@
 
 namespace App\Security;
 
+use App\Entity\Owner;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +26,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'app_login';
 
     private UrlGeneratorInterface $urlGenerator;
+    private EntityManagerInterface $manager;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(UrlGeneratorInterface $urlGenerator, EntityManagerInterface $manager)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->manager = $manager;
     }
 
     public function authenticate(Request $request): Passport
@@ -49,9 +55,24 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_home'));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        $email = $request->get('email');
+        $owner = $this->manager->getRepository(Owner::class)->findOneBy(['email' => $email]);
+
+        if (!is_null($owner)) {
+
+            $today = new \DateTime();
+
+            if ($owner->getExpirateDate() > $today) {
+                $link =  new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
+            } else {
+                $link =  new RedirectResponse($this->urlGenerator->generate('app_logout'));
+            }
+
+        } else {
+            $link =  new RedirectResponse($this->urlGenerator->generate('app_home'));
+        }
+
+        return $link;
     }
 
     protected function getLoginUrl(Request $request): string

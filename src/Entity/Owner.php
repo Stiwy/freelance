@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OwnerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,21 @@ class Owner
      * @ORM\Column(type="datetime")
      */
     private $expirate_date;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="owner", cascade={"persist", "remove"})
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="owner", orphanRemoval=true)
+     */
+    private $customers;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +120,58 @@ class Owner
     public function setExpirateDate(\DateTimeInterface $expirate_date): self
     {
         $this->expirate_date = $expirate_date;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setOwner(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getOwner() !== $this) {
+            $user->setOwner($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Customer[]
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getOwner() === $this) {
+                $customer->setOwner(null);
+            }
+        }
 
         return $this;
     }
