@@ -34,6 +34,11 @@ class MissionStatus
      */
     private $mission;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="missionStatuses")
+     */
+    private $owner;
+
     public function __construct()
     {
         $this->mission = new ArrayCollection();
@@ -99,6 +104,18 @@ class MissionStatus
                 $mission->setMissionStatus(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?Owner
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Owner $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

@@ -1,0 +1,24 @@
+{% extends 'layouts/connected.html.twig' %}
+
+{% block title %}Mes paramètre{% endblock %}
+
+{% block body %}
+    <section class="w-4/5 min-h-screen">
+        <header class="bg-gray-800 text-white p-3 flex content-between">
+            <h2 class="text-xl tracking-wide text-gray-400 w-8/12">Mon compte > Mes paramètre</h2>
+        </header>
+
+        <div class="flex content-between px-5 pt-20">
+            <h2 class="block w-4/5 font-black text-4xl text-gray-400">Mes paramètre</h2>
+            <a class="block w-1/5 bg-gray-700 hover:bg-gray-600 text-white p-1 rounded text-lg text-center" href="{{ path('app_account') }}">Retour</a>
+        </div>
+        <div class="mx-auto px-5 pt-20">
+            <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                <table>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

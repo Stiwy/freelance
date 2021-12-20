@@ -1,0 +1,31 @@
+{% extends 'layouts/connected.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <section class="w-4/5 min-h-screen">
+        <header class="bg-gray-800 text-white p-3 flex content-between">
+            <h2 class="text-xl tracking-wide text-gray-400 w-8/12">Mon compte</h2>
+        </header>
+
+        <div class="flex content-between px-5 pt-20">
+            <h2 class="block w-4/5 font-black text-4xl text-gray-400">Mon compte</h2>
+        </div>
+        <div class="mx-auto px-5 pt-20">
+            <div class="grid grid-cols-3 gap-3">
+                <a class="border-2 -border-gray-300 text-center text-gray-500 p-16 hover:border-green-500 hover:text-green-500 cursor-pointer">
+                    <p class="text-4xl mb-5"><i class="fas fa-user"></i></p>
+                    <p class="text-xl font-bold">Mes informations</p>
+                </a>
+                <a class="border-2 -border-gray-300 text-center text-gray-500 p-16 hover:border-green-500 hover:text-green-500 cursor-pointer">
+                    <p class="text-4xl mb-5"><i class="fas fa-file-signature"></i></p>
+                    <p class="text-xl font-bold">Mon abonnement</p>
+                </a>
+                <a href="{{ path('app_setting') }}" class="border-2 -border-gray-300 text-center text-gray-500 p-16 hover:border-green-500 hover:text-green-500 cursor-pointer">
+                    <p class="text-4xl mb-5"><i class="fas fa-cogs"></i></p>
+                    <p class="text-xl font-bold">Mes paramètre</p>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

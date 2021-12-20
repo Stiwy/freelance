@@ -73,7 +73,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/clients/editer/{id}', name: 'app_customer_update')]
-    public function update(Customer $customer, EntityManagerInterface $manager, Request $request): Response
+    public function update(Customer $customer, EntityManagerInterface $manager, Request $request, UserRepository $userRepository): Response
     {
         $form = $this->createForm(CustomerType::class, $customer);
 
@@ -81,6 +81,16 @@ class CustomerController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $customer = $form->getData();
+
+            $thisCustomer = $userRepository->findOneBy(['id' => $customer->getId()]);
+
+            if ($thisCustomer->getEmail() != $customer->getEmail()) {
+                $emailExist = $userRepository->count(["email" => $customer->getEmail()]);
+
+                if ($emailExist) {
+                    return $this->redirectToRoute('app_customer_update', ['id' => $customer->getId()]);
+                }
+            }
 
             $manager->persist($customer);
             $manager->flush();

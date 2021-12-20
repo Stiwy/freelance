@@ -38,6 +38,11 @@ class Mission
      */
     private $missionStatus;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="missions")
+     */
+    private $customer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class Mission
     public function setMissionStatus(?MissionStatus $missionStatus): self
     {
         $this->missionStatus = $missionStatus;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

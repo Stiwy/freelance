@@ -85,6 +85,16 @@ class Customer
      */
     private $owner;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Mission::class, mappedBy="customer")
+     */
+    private $missions;
+
+    public function __construct()
+    {
+        $this->missions = new ArrayCollection();
+    }
+
     public function __toString(): string
     {
         return $this->getFirstname() . ' ' . $this->getLastname() . ' @' . $this->getId();
@@ -257,6 +267,36 @@ class Customer
     public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Mission[]
+     */
+    public function getMissions(): Collection
+    {
+        return $this->missions;
+    }
+
+    public function addMission(Mission $mission): self
+    {
+        if (!$this->missions->contains($mission)) {
+            $this->missions[] = $mission;
+            $mission->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMission(Mission $mission): self
+    {
+        if ($this->missions->removeElement($mission)) {
+            // set the owning side to null (unless already changed)
+            if ($mission->getCustomer() === $this) {
+                $mission->setCustomer(null);
+            }
+        }
 
         return $this;
     }

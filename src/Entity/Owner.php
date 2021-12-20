@@ -54,9 +54,15 @@ class Owner
      */
     private $customers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MissionStatus::class, mappedBy="owner")
+     */
+    private $missionStatuses;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
+        $this->missionStatuses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,6 +176,36 @@ class Owner
             // set the owning side to null (unless already changed)
             if ($customer->getOwner() === $this) {
                 $customer->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MissionStatus[]
+     */
+    public function getMissionStatuses(): Collection
+    {
+        return $this->missionStatuses;
+    }
+
+    public function addMissionStatus(MissionStatus $missionStatus): self
+    {
+        if (!$this->missionStatuses->contains($missionStatus)) {
+            $this->missionStatuses[] = $missionStatus;
+            $missionStatus->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMissionStatus(MissionStatus $missionStatus): self
+    {
+        if ($this->missionStatuses->removeElement($missionStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($missionStatus->getOwner() === $this) {
+                $missionStatus->setOwner(null);
             }
         }
 

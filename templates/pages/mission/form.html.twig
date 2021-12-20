@@ -34,10 +34,12 @@
 
             <div class="form-group">
                 {{ form_widget(form.mission_status) }}
+                <span onclick="quitPage()" class="cursor-pointer -mt-5 block text-sm hover:text-green-500"><i class="fas fa-plus"></i> Créer un status</span>
             </div>
 
             <div class="form-group">
                 {{ form_widget(form.customer) }}
+                <span onclick="quitPage('/clients/nouveau')" class="cursor-pointer -mt-5 block text-sm hover:text-green-500"><i class="fas fa-plus"></i> Créer un client</span>
             </div>
             {{ form_end(form) }}
             <em class="text-gray-400 text-sm">Les champs comportant un (*) doivent êtres remplis.</em>
@@ -72,6 +74,12 @@
             } else {
                 input.classList.add('input-focus');
                 label.classList.add('input-focus-label');
+            }
+        }
+
+        function quitPage(url) {
+            if(confirm('Souhaitez-vous vraiment quitter cette page ?')) {
+                document.location.href = url;
             }
         }
     </script>
