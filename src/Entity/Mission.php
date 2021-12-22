@@ -43,6 +43,41 @@ class Mission
      */
     private $customer;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $end_date;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $work_duration;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $invoice_recurency;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $rate;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $rate_reccurency;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $invoice_last_dade;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $invoice_deadline_date;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +139,90 @@ class Mission
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->end_date;
+    }
+
+    public function setEndDate(?\DateTimeInterface $end_date): self
+    {
+        $this->end_date = $end_date;
+
+        return $this;
+    }
+
+    public function getWorkDuration(): ?int
+    {
+        return $this->work_duration;
+    }
+
+    public function setWorkDuration(?int $work_duration): self
+    {
+        $this->work_duration = $work_duration;
+
+        return $this;
+    }
+
+    public function getInvoiceRecurency(): ?string
+    {
+        return $this->invoice_recurency;
+    }
+
+    public function setInvoiceRecurency(string $invoice_recurency): self
+    {
+        $this->invoice_recurency = $invoice_recurency;
+
+        return $this;
+    }
+
+    public function getRate(): ?float
+    {
+        return $this->rate;
+    }
+
+    public function setRate(float $rate): self
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    public function getRateReccurency(): ?string
+    {
+        return $this->rate_reccurency;
+    }
+
+    public function setRateReccurency(string $rate_reccurency): self
+    {
+        $this->rate_reccurency = $rate_reccurency;
+
+        return $this;
+    }
+
+    public function getInvoiceLastDade(): ?\DateTimeInterface
+    {
+        return $this->invoice_last_dade;
+    }
+
+    public function setInvoiceLastDade(?\DateTimeInterface $invoice_last_dade): self
+    {
+        $this->invoice_last_dade = $invoice_last_dade;
+
+        return $this;
+    }
+
+    public function getInvoiceDeadlineDate(): ?\DateTimeInterface
+    {
+        return $this->invoice_deadline_date;
+    }
+
+    public function setInvoiceDeadlineDate(\DateTimeInterface $invoice_deadline_date): self
+    {
+        $this->invoice_deadline_date = $invoice_deadline_date;
 
         return $this;
     }

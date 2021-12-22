@@ -5,9 +5,11 @@ namespace App\Form;
 use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -54,7 +56,7 @@ class CustomerType extends AbstractType
                     'onblur' => "toggleClassForm('customer_company')"
                 ]
             ])
-            ->add('phone', NumberType::class, [
+            ->add('phone', TelType::class, [
                 'label' => 'Téléphone *',
                 'label_attr' => [
                     'id' => 'customer_phoneLabel'
@@ -115,15 +117,10 @@ class CustomerType extends AbstractType
                     'onblur' => "toggleClassForm('customer_city')"
                 ]
             ])
-            ->add('country', TextType::class, [
+            ->add('country', CountryType::class, [
                 'label' => 'Pays',
                 'label_attr' => [
                     'id' => 'customer_countryLabel'
-                ],
-                'data' => 'France',
-                'attr' => [
-                    'onfocus' => "addClassForm('customer_country')",
-                    'onblur' => "toggleClassForm('customer_country')"
                 ]
             ])
             ->add('submit', SubmitType::class, [

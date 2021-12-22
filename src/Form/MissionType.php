@@ -5,11 +5,17 @@ namespace App\Form;
 use App\Entity\Customer;
 use App\Entity\Mission;
 use App\Entity\MissionStatus;
+use App\Entity\Owner;
 use App\Entity\User;
+use App\Repository\CustomerRepository;
+use App\Repository\MissionStatusRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MissionType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -42,11 +49,79 @@ class MissionType extends AbstractType
                     'onblur' => "toggleClassForm('mission_details')"
                 ]
             ])
-            ->add('mission_status', EntityType::class, [
-                'class' => MissionStatus::class,
+            ->add('end_date', DateType::class, [
+                'label' => 'Date de fin de mission',
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ]
             ])
-            ->add('customer', EntityType::class, [
-                'class' => Customer::class,
+            ->add('customer', ChoiceType::class, [
+                'label' => 'Client',
+                'choices' => $options['customers'],
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ]
+            ])
+            ->add('mission_status', ChoiceType::class, [
+                'label' => 'Statut',
+                'choices' => $options['missionStatus'],
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ]
+            ])
+            ->add('work_duration', IntegerType::class, [
+                'label' => 'Heure de travail effectué',
+                'data' => 0,
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ]
+            ])
+            ->add('rate', NumberType::class, [
+                'label' => 'Prix',
+                'label_attr' => [
+                    'id' => 'mission_rateLabel'
+                ],
+                'attr' => [
+                    'onfocus' => "addClassForm('mission_rate')",
+                    'onblur' => "toggleClassForm('mission_rate')"
+                ]
+            ])
+            ->add('rate_reccurency', ChoiceType::class, [
+                'label' => 'Prix par',
+                'choices'  => [
+                    'Heure' => 'hour',
+                    'Jour' => 'day',
+                    'Semaine' => 'week',
+                    'Mois' => 'Month',
+                    'Année' => 'Year',
+                    'Facture unique' => 'oneShot',
+                ],
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ]
+            ])
+            ->add('invoice_recurency', ChoiceType::class, [
+                'label' => 'Réccurence de facturation',
+                'choices'  => [
+                    'Jour' => 'day',
+                    'Semaine' => 'week',
+                    'Mois' => 'Month',
+                    'Année' => 'Year',
+                    'Facture unique' => 'oneShot',
+                ],
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ],
+            ])
+            ->add('invoice_deadline_date', DateType::class, [
+                'label' => 'Date de la première facturation',
+                'widget' => 'single_text',
+                'data' => new \DateTime(),
+                'label_attr' => [
+                    'class' => '-mt-5 bg-white px-1'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Enregistrer',
@@ -61,6 +136,8 @@ class MissionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Mission::class,
+            'customers' => array(),
+            'missionStatus' => array(),
         ]);
     }
 }

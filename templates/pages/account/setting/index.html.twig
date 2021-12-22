@@ -14,11 +14,52 @@
         </div>
         <div class="mx-auto px-5 pt-20">
             <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
-                <table>
+                <div class="">
+                    <h3 class="inline text-2xl font-semibold text-green-500">Status de mission</h3>
+                    <a class="float-right bg-green-500 hover:bg-green-400 text-white p-1 rounded text-lg text-center" href="{{ path('app_mission_status_create') }}">Créer un status</a>
+                </div>
+
+                <table class="w-full text-center leading-10 mt-10">
+                    <thead class="bg-gray-700 text-white">
+                        <tr>
+                            <th>Statut</th>
+                            <th>Priorité</th>
+                            <th>Nombre de mission</th>
+                            <th></th>
+                        </tr>
+
+                    </thead>
                     <tbody>
+                        {% for missionStatus in app.user.owner.missionStatuses %}
+                            <tr>
+                                <td><span class="p-1 text-sm rounded-md" style="background-color: {{ missionStatus.backgroundColor }}; color: {{ missionStatus.fontColor }};">{{ missionStatus.status }}</span></td>
+                                <td class="font-bold text-gray-500">{{ missionStatus.priority }}</td>
+                                <td class="font-bold text-gray-500">{{ missionStatus.mission|length }}</td>
+                                <td>
+                                    <a class="px-1 py-1 bg-gray-300 rounded-md hover:bg-gray-200 mr-3" href="{{ path('app_mission_status_update', {'id': missionStatus.id}) }}">Editer</a>
+                                    <span onclick="customerDelete({{ missionStatus.id }}, {{ missionStatus.mission|length }})" class="cursor-pointer px-1 py-1 bg-red-500 rounded-md text-white hover:bg-red-400" href="">Supprimer</span>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>Pas de statut créée</td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
+    <script>
+        function customerDelete(id, missionCount) {
+
+            if (missionCount) {
+                alert('Attention, vous ne pouvez pas supprimer un statut qui est rataché à une mission.');
+            } else {
+                if(confirm('Souhaitez-vous vraiment supprimer ce status ?')) {
+                    document.location.href = '/mission/status/supprimer/' + id;
+                }
+            }
+        }
+    </script>
 {% endblock %}

@@ -20,6 +20,7 @@
         line-height: 2.4rem;
         padding-left: 10px;
         height: 38px;
+        background: white;
     }
 
     textarea {
@@ -38,11 +39,9 @@
     top: -13px !important;
     background: white;
     padding: 0px 5px;
-    color: rgba(16, 185, 129) !important;
     font-size: 1rem;
-} 
+}
 
-.input-focus {
-    border-color: rgba(16, 185, 129) !important;
-    outline: none;
-} 
+input, textarea, select {
+    outline: none !important;
+}

@@ -20,8 +20,45 @@
         </div>
         <div class="mx-auto px-5 pt-20">
             {% for mission in missions %}
-            <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
-                {{ dump(mission) }}
+            <div class="mb-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                <div class="">
+                    <h4 class="inline-block text-xl text-gray-500">{{ mission.title }}</h4>
+                    <form class="inline-block float-right" method="post" action="{{ path('app_mission_update_status', {'id': mission.id }) }}">
+                        <select onchange="visibleSubmit('submit-{{ mission.id }}')" name="missionStatus-{{ mission.id }}" class="p-1 text-sm rounded-md" style="background-color: {{ mission.missionStatus.backgroundColor }}; color: {{ mission.missionStatus.fontColor }}">
+                            <option class="p-1 text-sm rounded-md" style="background-color: {{ mission.missionStatus.backgroundColor }}; color: {{ mission.missionStatus.fontColor }}" value="{{ mission.missionStatus.status }}">{{ mission.missionStatus.status }}</option>
+                            {% for missionStatus in missionStatuses %}
+                                <option class="p-1 text-sm rounded-md" value="{{ missionStatus.status }}">{{ missionStatus.status }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="hidden" name="token" value="{{ csrf_token('some-name') }}">
+                        <button id="submit-{{ mission.id }}" class="hidden bg-gray-700 text-white px-2 -ml-1 rounded-md hover:bg-gray-600" type="submit"><i class="fas fa-check"></i></button>
+                    </form>
+
+                    <p>{{ mission.details }}</p>
+
+                    <div class="mt-3 grid grid-cols-3">
+                        <span><em class="text-sm">Début le :</em> {{ mission.insertDate|date("d-m-Y") }}</span>
+                        <span><em class="text-sm">Fin prévue le :</em> 10-03-2022</span>
+                        <span><em class="text-sm">Durée de travail actuel :</em> 5 jour</span>
+                    </div>
+                </div>
+                <div class="text-gray-500 mt-5 border-t-2">
+                    <h5 class="font-bold text-lg">Client</h5>
+                    <div class="grid grid-cols-3">
+                        <span class="font-bold">{{ mission.customer.firstname }} {{ mission.customer.lastname }}</span>
+                        <span><em class="text-sm">Téléphone :</em> 0{{ mission.customer.phone }}</span>
+                        <span><em class="text-sm">E-mail :</em> {{ mission.customer.email }}</span>
+                    </div>
+                </div>
+                <div class="text-gray-500 mt-5 border-t-2">
+                    <h5 class="font-bold text-lg">Facturation</h5>
+                    <div class="grid grid-cols-4">
+                        <span><em class="text-sm">Taux :</em> 300€ / jour</span>
+                        <span><em class="text-sm">Facturation :</em> Mois</span>
+                        <span><em class="text-sm">Prochaine échéance :</em> 10-01-2022</span>
+                        <span><em class="text-sm">Dérnière échéance :</em> 10-12-2021</span>
+                    </div>
+                </div>
             </div>
             {% else %}
                 <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5 text-center">
@@ -30,4 +67,12 @@
             {% endfor %}
         </div>
     </section>
+
+    <script>
+        function visibleSubmit(id) {
+            let submit = document.getElementById(id);
+
+            submit.classList.remove('hidden');
+        }
+    </script>
 {% endblock %}

@@ -59,10 +59,16 @@ class Owner
      */
     private $missionStatuses;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Tva::class, mappedBy="owner")
+     */
+    private $tvas;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
         $this->missionStatuses = new ArrayCollection();
+        $this->tvas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,6 +213,33 @@ class Owner
             if ($missionStatus->getOwner() === $this) {
                 $missionStatus->setOwner(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tva[]
+     */
+    public function getTvas(): Collection
+    {
+        return $this->tvas;
+    }
+
+    public function addTva(Tva $tva): self
+    {
+        if (!$this->tvas->contains($tva)) {
+            $this->tvas[] = $tva;
+            $tva->addOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTva(Tva $tva): self
+    {
+        if ($this->tvas->removeElement($tva)) {
+            $tva->removeOwner($this);
         }
 
         return $this;

@@ -39,6 +39,21 @@ class MissionStatus
      */
     private $owner;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $background_color;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $font_color;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $priority;
+
     public function __construct()
     {
         $this->mission = new ArrayCollection();
@@ -116,6 +131,42 @@ class MissionStatus
     public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getBackgroundColor(): ?string
+    {
+        return $this->background_color;
+    }
+
+    public function setBackgroundColor(string $background_color): self
+    {
+        $this->background_color = $background_color;
+
+        return $this;
+    }
+
+    public function getFontColor(): ?string
+    {
+        return $this->font_color;
+    }
+
+    public function setFontColor(string $font_color): self
+    {
+        $this->font_color = $font_color;
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): self
+    {
+        $this->priority = $priority;
 
         return $this;
     }
