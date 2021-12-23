@@ -20,7 +20,8 @@
         </div>
         <div class="mx-auto px-5 pt-20">
             {% for mission in missions %}
-            <div class="mb-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
+                {% if mission.customer.owner == app.user.owner %}
+                    <a href="{{ path('app_mission_show', {'id': mission.id}) }}" class="block mb-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5">
                 <div class="">
                     <h4 class="inline-block text-xl text-gray-500">{{ mission.title }}</h4>
                     <form class="inline-block float-right" method="post" action="{{ path('app_mission_update_status', {'id': mission.id }) }}">
@@ -38,8 +39,8 @@
 
                     <div class="mt-3 grid grid-cols-3">
                         <span><em class="text-sm">Début le :</em> {{ mission.insertDate|date("d-m-Y") }}</span>
-                        <span><em class="text-sm">Fin prévue le :</em> 10-03-2022</span>
-                        <span><em class="text-sm">Durée de travail actuel :</em> 5 jour</span>
+                        <span><em class="text-sm">Fin prévue le :</em> {{ mission.endDate|date("d-m-Y") }}</span>
+                        <span><em class="text-sm">Durée de travail actuel :</em> {{ mission.workDuration }} Heure(s)</span>
                     </div>
                 </div>
                 <div class="text-gray-500 mt-5 border-t-2">
@@ -53,13 +54,14 @@
                 <div class="text-gray-500 mt-5 border-t-2">
                     <h5 class="font-bold text-lg">Facturation</h5>
                     <div class="grid grid-cols-4">
-                        <span><em class="text-sm">Taux :</em> 300€ / jour</span>
-                        <span><em class="text-sm">Facturation :</em> Mois</span>
-                        <span><em class="text-sm">Prochaine échéance :</em> 10-01-2022</span>
-                        <span><em class="text-sm">Dérnière échéance :</em> 10-12-2021</span>
+                        <span><em class="text-sm">Taux :</em> {{ mission.rate|number_format(2, ',', ' ') }}€ / {{ mission.rateReccurency }}</span>
+                        <span><em class="text-sm">Facturation :</em> {{ mission.invoiceRecurency }}</span>
+                        <span><em class="text-sm">Prochaine échéance :</em> {{ mission.invoiceDeadlineDate|date("d-m-Y") }}</span>
+                        <span><em class="text-sm">Précédente échéance :</em> {{ mission.invoiceLastDade|date("d-m-Y") }}</span>
                     </div>
                 </div>
-            </div>
+            </a>
+                {% endif %}
             {% else %}
                 <div class="bg-white border-2 border-gray-200 shadow-md ronded-md p-5 text-center">
                     <h2 class="font-black text-2xl text-gray-400">Vous n'avez pas de mission</h2>

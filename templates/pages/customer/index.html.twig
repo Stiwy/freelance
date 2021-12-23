@@ -21,7 +21,8 @@
         <div class="mx-auto px-5 pt-20">
             <div class="grid grid-cols-3 gap-3">
                 {% for customer in customers %}
-                    <section class="shadow-xl text-gray-500 border-2 border-gray-200 hover:shadow-2xl rounded p-2">
+                    {% if customer.owner == app.user.owner %}
+                        <section class="shadow-xl text-gray-500 border-2 border-gray-200 hover:shadow-2xl rounded p-2">
                         <a href="{{ path('app_customer_show', {'id': customer.id}) }}">
                             <div id="card-header" class="flex justify-between border-b-2 border-indigo-500">
                                 <h3 class="text-xl w-3/5">{{ customer.firstname }} {{ customer.lastname }}</h3>
@@ -80,6 +81,7 @@
                             </div>
                         </div>
                     </section>
+                    {% endif %}
                 {% else %}
                     <div></div>
                     <div class="mt-5 bg-white border-2 border-gray-200 shadow-md ronded-md p-5 text-center m-auto">

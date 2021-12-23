@@ -61,17 +61,19 @@ class MissionController extends AbstractController
             return $this->redirectToRoute('app_mission');
         }
 
-        return $this->render('pages/mission/form.html.twig', [
-            'form' => $form->createView(),
-            'title' => 'Créer une mission',
-            'customers' => $customers,
-            'missionStatus' => $missionStatus,
+        return $this->renderForm('pages/mission/form.html.twig', [
+            'form' => $form,
+            'title' => 'Créer une mission'
         ]);
     }
 
-    #[Route('/missions/change_statut/{id}', name: 'app_mission_update_status', methods: ['POST','HEAD'], requirements: ["id"=>"\d+"])]
+    #[Route('/missions/change_statut/{id}', name: 'app_mission_update_status', requirements: ["id"=>"\d+"], methods: ['POST','HEAD'])]
     public function updateStatus(Request $request, Mission $mission, int $id, EntityManagerInterface $manager, MissionStatusRepository $missionStatusRepository): Response
     {
+        if ($mission->getCustomer()->getOwner()->getId() !== $this->getUser()->getOwner()->getId()) {
+            throw $this->createNotFoundException('La mission demandé n\'existe pas');
+        }
+
         $status = $request->get("missionStatus-$id");
         $missionStatus = $missionStatusRepository->findOneBy(['status' => $status]);
 
@@ -82,5 +84,22 @@ class MissionController extends AbstractController
         }
 
         return $this->redirectToRoute('app_mission');
+    }
+
+    #[Route('/missions/{id}', name: 'app_mission_show', requirements: ["id"=>"\d+"], methods: ['GET','HEAD'])]
+    public function show(Mission $mission): Response
+    {
+
+        if ($mission->getCustomer()->getOwner()->getId() !== $this->getUser()->getOwner()->getId()) {
+            throw $this->createNotFoundException('La mission demandé n\'existe pas');
+        }
+
+        return $this->renderForm('pages/mission/show.html.twig', compact('mission'));
+    }
+
+    #[Route('/missions/editer/{id}', name: 'app_mission_update', requirements: ["id"=>"\d+"], methods: ['GET','HEAD'])]
+    public function update(Mission $mission): Response
+    {
+        return $this->renderForm('pages/mission/show.html.twig', compact('mission'));
     }
 }

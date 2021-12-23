@@ -69,12 +69,20 @@ class CustomerController extends AbstractController
     #[Route('/clients/{id}', name: 'app_customer_show')]
     public function show(Customer $customer): Response
     {
+        if ($customer->getOwner()->getId() !== $this->getUser()->getOwner()->getId()) {
+            throw $this->createNotFoundException('Ce client demandé n\'existe pas');
+        }
+
         return $this->render('pages/customer/show.html.twig', compact('customer'));
     }
 
     #[Route('/clients/editer/{id}', name: 'app_customer_update')]
     public function update(Customer $customer, EntityManagerInterface $manager, Request $request, UserRepository $userRepository): Response
     {
+        if ($customer->getOwner()->getId() !== $this->getUser()->getOwner()->getId()) {
+            throw $this->createNotFoundException('Ce client demandé n\'existe pas');
+        }
+
         $form = $this->createForm(CustomerType::class, $customer);
 
         $form->handleRequest($request);
@@ -107,6 +115,10 @@ class CustomerController extends AbstractController
     #[Route('/clients/supprimer/{id}', name: 'app_customer_delete')]
     public function delete(Customer $customer, EntityManagerInterface $manager): Response
     {
+        if ($customer->getOwner()->getId() !== $this->getUser()->getOwner()->getId()) {
+            throw $this->createNotFoundException('Ce client demandé n\'existe pas');
+        }
+
         $manager->remove($customer);
         $manager->flush();
 

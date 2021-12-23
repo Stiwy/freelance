@@ -69,6 +69,7 @@ class Owner
         $this->customers = new ArrayCollection();
         $this->missionStatuses = new ArrayCollection();
         $this->tvas = new ArrayCollection();
+        $this->missions = new ArrayCollection();
     }
 
     public function getId(): ?int

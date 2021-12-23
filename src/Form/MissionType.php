@@ -91,12 +91,12 @@ class MissionType extends AbstractType
             ->add('rate_reccurency', ChoiceType::class, [
                 'label' => 'Prix par',
                 'choices'  => [
-                    'Heure' => 'hour',
-                    'Jour' => 'day',
-                    'Semaine' => 'week',
-                    'Mois' => 'Month',
-                    'Année' => 'Year',
-                    'Facture unique' => 'oneShot',
+                    'Heure' => 'Heure',
+                    'Jour' => 'Jour',
+                    'Semaine' => 'Semaine',
+                    'Mois' => 'Mois',
+                    'Année' => 'Année',
+                    'Facture unique' => 'Facture unique',
                 ],
                 'label_attr' => [
                     'class' => '-mt-5 bg-white px-1'
@@ -105,11 +105,11 @@ class MissionType extends AbstractType
             ->add('invoice_recurency', ChoiceType::class, [
                 'label' => 'Réccurence de facturation',
                 'choices'  => [
-                    'Jour' => 'day',
-                    'Semaine' => 'week',
-                    'Mois' => 'Month',
-                    'Année' => 'Year',
-                    'Facture unique' => 'oneShot',
+                    'Jour' => 'Jour',
+                    'Semaine' => 'Semaine',
+                    'Mois' => 'Mois',
+                    'Année' => 'Année',
+                    'Facture unique' => 'Facture unique',
                 ],
                 'label_attr' => [
                     'class' => '-mt-5 bg-white px-1'
